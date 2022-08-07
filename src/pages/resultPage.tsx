@@ -1,5 +1,7 @@
 import React from "react";
+import { useContextValue } from "../core/DataProvider";
 
 export const ResultPage = () => {
-  return <div>ResultPage</div>;
+  const { searchTerm } = useContextValue();
+  return <div>{searchTerm}</div>;
 };

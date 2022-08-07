@@ -3,6 +3,7 @@ import { HomePage } from "./pages/homePage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ResultPage } from "./pages/resultPage";
 import { createUseStyles } from "react-jss";
+import { DataProvider } from "./core/DataProvider";
 
 const useStyles = createUseStyles({
   app: {
@@ -21,14 +22,16 @@ function App() {
   const classes = useStyles();
 
   return (
-    <div className={classes.app}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/search" element={<ResultPage />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <DataProvider>
+      <div className={classes.app}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/search" element={<ResultPage />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </DataProvider>
   );
 }
 

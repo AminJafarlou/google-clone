@@ -5,6 +5,10 @@ import MicIcon from "@material-ui/icons/Mic";
 import GoogleLogo from "./googleLogo.png";
 import { createUseStyles } from "react-jss";
 import { Button } from "@material-ui/core";
+import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { MouseEvent } from "react";
+import { useContextValue } from "../core/DataProvider";
 
 const useStyles = createUseStyles({
   bodyWrapper: {
@@ -76,24 +80,47 @@ const useStyles = createUseStyles({
 });
 
 export const HomeBody = () => {
+  const navigate = useNavigate();
   const classes = useStyles();
+  const { setSearchTerm } = useContextValue();
+  const [input, setInput] = useState<string>("");
+
+  const handleSearch = (
+    e: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+  ) => {
+    e.preventDefault();
+    setSearchTerm?.(input);
+    navigate("/search");
+  };
 
   return (
-    <div className={classes.bodyWrapper}>
+    <form action="submit" className={classes.bodyWrapper}>
       <div className={classes.container}>
         <div className={classes.imageWrapper}>
           <img className={classes.image} src={GoogleLogo} alt="" />
         </div>
+
         <div className={classes.googleInput}>
           <SearchIcon fontSize="small" color="disabled" />
-          <input className={classes.input} type="text" />
+          <input
+            className={classes.input}
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          />
           <MicIcon fontSize="small" color="primary" />
         </div>
         <div className={classes.buttonsWrapper}>
-          <Button className={classes.button}>Google Search</Button>
+          <Button
+            type="submit"
+            className={classes.button}
+            onClick={(e) => handleSearch(e)}
+          >
+            Google Search
+          </Button>
           <Button className={classes.button}>I'm Feeling Lucky</Button>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
